@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import bodyParser from "body-parser";
 
 import { connect } from "./config/db";
-import * as usersController from "./controllers/users";
+import router from "./routes";
 
 dotenv.config();
 
@@ -14,11 +14,7 @@ app.use(bodyParser.json());
 const PORT = process.env.PORT ?? 5050;
 const MONGODB_URI = process.env.MONGODB_URI ?? '';
 
-app.get("/users", usersController.all);
-app.get("/users/:id", usersController.findById);
-app.put("/users/:id", usersController.update);
-app.delete("/users/:id", usersController.deleteId);
-app.post("/users", usersController.create);
+app.use("/", router());
 
 const startServer = async () => {
     await connect(MONGODB_URI, "api");
